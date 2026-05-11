@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kasirku adalah aplikasi POS modern untuk toko, minimarket, grosir, retail, dan UMKM. Kelola transaksi, stok, pelanggan, promo, laporan, dan keamanan kasir dalam satu sistem.">
+  <title>Kasirku - Aplikasi Kasir Modern</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5d6d7e;
+      --line: #dbe3ea;
+      --paper: #ffffff;
+      --soft: #f4f7fa;
+      --primary: #2357c6;
+      --primary-dark: #173d8f;
+      --teal: #00897b;
+      --amber: #f2a900;
+      --red: #d64545;
+      --radius: 8px;
+      --shadow: 0 18px 55px rgba(23, 32, 42, .12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(1140px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      box-shadow: 0 10px 26px rgba(35, 87, 198, .24);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: var(--primary);
+      box-shadow: 0 12px 26px rgba(35, 87, 198, .24);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      color: var(--primary-dark);
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      align-items: center;
+      padding: 58px 0 46px;
+      background:
+        linear-gradient(90deg, rgba(244, 247, 250, .95), rgba(244, 247, 250, .68)),
+        url("https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=1800&q=80") center / cover;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      align-items: center;
+      gap: 52px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .8);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 18px 0 16px;
+      max-width: 780px;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      margin: 0;
+      max-width: 680px;
+      color: #34495e;
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 34px;
+      max-width: 680px;
+    }
+
+    .metric {
+      min-height: 88px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .82);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .pos-window {
+      overflow: hidden;
+      border: 1px solid rgba(219, 227, 234, .9);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .pos-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #cbd5df;
+    }
+
+    .dot:nth-child(1) {
+      background: var(--red);
+    }
+
+    .dot:nth-child(2) {
+      background: var(--amber);
+    }
+
+    .dot:nth-child(3) {
+      background: var(--teal);
+    }
+
+    .pos-body {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      min-height: 520px;
+    }
+
+    .pos-main {
+      padding: 18px;
+      background: #fff;
+    }
+
+    .search {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: #fff;
+      font-weight: 700;
+    }
+
+    .items {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .item {
+      min-height: 118px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .item .thumb {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, rgba(35, 87, 198, .15), rgba(0, 137, 123, .22));
+    }
+
+    .item strong,
+    .cart-line strong {
+      display: block;
+      line-height: 1.25;
+    }
+
+    .item span,
+    .cart-line span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .pos-side {
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+      border-left: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .cart-title {
+      margin: 0 0 14px;
+      font-size: 17px;
+    }
+
+    .cart-line {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .total {
+      margin-top: auto;
+      padding-top: 18px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    .grand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--primary);
+      font-weight: 900;
+    }
+
+    .section {
+      padding: 74px 0;
+    }
+
+    .section.alt {
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .section-head h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .benefit,
+    .feature,
+    .fit-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .benefit {
+      padding: 22px;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--primary);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .benefit:nth-child(2) .icon,
+    .feature:nth-child(2n) .feature-icon {
+      background: var(--teal);
+    }
+
+    .benefit:nth-child(3) .icon,
+    .feature:nth-child(3n) .feature-icon {
+      background: var(--amber);
+      color: #1f2933;
+    }
+
+    .benefit h3,
+    .feature h3,
+    .fit-card h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .benefit p,
+    .feature p,
+    .fit-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--primary);
+      font-weight: 900;
+    }
+
+    .feature ul {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 7px;
+      color: #34495e;
+      font-size: 14px;
+    }
+
+    .feature li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .feature li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .68em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .report-panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .report-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 18px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .report-stat {
+      padding: 14px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .report-stat:nth-child(2) {
+      background: var(--teal);
+    }
+
+    .report-stat:nth-child(3) {
+      background: var(--amber);
+      color: #1f2933;
+    }
+
+    .report-stat:nth-child(4) {
+      background: var(--red);
+    }
+
+    .report-stat span {
+      display: block;
+      opacity: .78;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .report-stat strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 20px;
+    }
+
+    .chart {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      height: 220px;
+      padding: 26px 22px 22px;
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 18px;
+      border-radius: 6px 6px 0 0;
+      background: linear-gradient(180deg, var(--primary), var(--teal));
+    }
+
+    .bar:nth-child(1) { height: 36%; }
+    .bar:nth-child(2) { height: 58%; }
+    .bar:nth-child(3) { height: 48%; }
+    .bar:nth-child(4) { height: 82%; }
+    .bar:nth-child(5) { height: 64%; }
+    .bar:nth-child(6) { height: 90%; }
+    .bar:nth-child(7) { height: 72%; }
+
+    .fit-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .fit-card {
+      padding: 18px;
+      min-height: 132px;
+    }
+
+    .cta {
+      color: #fff;
+      background:
+        linear-gradient(90deg, rgba(23, 61, 143, .95), rgba(0, 137, 123, .88)),
+        url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=80") center / cover;
+    }
+
+    .cta-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+      padding: 48px 0;
+    }
+
+    .cta h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.08;
+    }
+
+    .cta p {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(255, 255, 255, .86);
+      font-size: 17px;
+    }
+
+    .cta .btn-outline {
+      color: #fff;
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .42);
+    }
+
+    footer {
+      padding: 24px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: #fff;
+      font-size: 14px;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-grid,
+      .workflow,
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .pos-body {
+        grid-template-columns: 1fr;
+      }
+
+      .pos-side {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .fit-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .wrap {
+        width: min(100% - 28px, 1140px);
+      }
+
+      .hero {
+        padding: 42px 0 34px;
+      }
+
+      .metrics,
+      .benefits,
+      .feature-grid,
+      .fit-grid,
+      .items,
+      .report-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .feature {
+        grid-template-columns: 1fr;
+      }
+
+      .pos-body {
+        min-height: 0;
+      }
+
+      .section {
+        padding: 52px 0;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a href="#" class="brand" aria-label="Kasirku">
+        <span class="brand-mark">K</span>
+        <span>Kasirku</span>
+      </a>
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#fitur">Fitur</a>
+        <a href="#laporan">Laporan</a>
+        <a href="#usaha">Cocok Untuk</a>
+        <a href="#kontak">Demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">POS untuk toko, minimarket, grosir, dan UMKM</span>
+          <h1>Kasirku</h1>
+          <p class="hero-copy">
+            Aplikasi kasir modern untuk mencatat transaksi, mengelola stok, memantau laporan,
+            mengatur pelanggan, membuat promo, mendukung banyak komputer kasir, dan menjaga operasional tetap rapi dalam satu sistem.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#kontak">Minta Demo</a>
+            <a class="btn btn-outline" href="#fitur">Lihat Fitur</a>
+          </div>
+          <div class="metrics" aria-label="Ringkasan fitur Kasirku">
+            <div class="metric">
+              <strong>POS Cepat</strong>
+              <span>Barcode, live search, multi-tab transaksi, dan cetak struk thermal.</span>
+            </div>
+            <div class="metric">
+              <strong>Stok Rapi</strong>
+              <span>Stok otomatis berkurang dan stok minimum mudah dipantau.</span>
+            </div>
+            <div class="metric">
+              <strong>Laporan Lengkap</strong>
+              <span>Omzet, HPP, laba, diskon, produk terlaris, dan pelanggan top spender.</span>
+            </div>
+            <div class="metric">
+              <strong>Multi Kasir</strong>
+              <span>Beberapa komputer kasir dalam satu jaringan dengan data terpusat.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pos-window" aria-label="Mockup layar kasir Kasirku">
+          <div class="pos-top">
+            <div class="dots" aria-hidden="true">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <strong>Kasirku POS</strong>
+          </div>
+          <div class="pos-body">
+            <div class="pos-main">
+              <div class="search">Scan barcode atau cari produk...</div>
+              <div class="items">
+                <div class="item">
+                  <div class="thumb"></div>
+                  <strong>Beras Premium 5kg</strong>
+                  <span>Rp 72.000 - Stok 42</span>
+                </div>
+                <div class="item">
+                  <div class="thumb"></div>
+                  <strong>Minyak Goreng 2L</strong>
+                  <span>Rp 35.500 - Promo aktif</span>
+                </div>
+                <div class="item">
+                  <div class="thumb"></div>
+                  <strong>Kopi Sachet</strong>
+                  <span>Rp 1.500 - Grosir 10+</span>
+                </div>
+                <div class="item">
+                  <div class="thumb"></div>
+                  <strong>Sabun Mandi</strong>
+                  <span>Rp 4.000 - Rak B2</span>
+                </div>
+              </div>
+            </div>
+            <aside class="pos-side">
+              <h2 class="cart-title">Keranjang</h2>
+              <div class="cart-line">
+                <strong>Minyak Goreng 2L</strong>
+                <span>2 x Rp 35.500</span>
+              </div>
+              <div class="cart-line">
+                <strong>Kopi Sachet</strong>
+                <span>12 x Rp 1.500</span>
+              </div>
+              <div class="cart-line">
+                <strong>Diskon Promo</strong>
+                <span>- Rp 4.000</span>
+              </div>
+              <div class="total">
+                <div class="total-row"><span>Subtotal</span><strong>Rp 89.000</strong></div>
+                <div class="total-row"><span>QRIS</span><strong>Siap bayar</strong></div>
+                <div class="grand"><span>Total</span><span>Rp 85.000</span></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Operasional toko lebih cepat dan mudah dipantau.</h2>
+          <p>Kasirku membantu pemilik usaha mengurangi salah hitung, menjaga stok, membaca performa penjualan, dan membuat proses kasir terasa profesional.</p>
+        </div>
+        <div class="benefits">
+          <article class="benefit">
+            <div class="icon">01</div>
+            <h3>Transaksi Lebih Cepat</h3>
+            <p>Kasir bisa scan barcode, cari produk, tambah diskon, memilih pembayaran, dan mencetak struk tanpa proses rumit.</p>
+          </article>
+          <article class="benefit">
+            <div class="icon">02</div>
+            <h3>Stok Selalu Terpantau</h3>
+            <p>Setiap penjualan memotong stok otomatis, dilengkapi notifikasi stok minimum dan riwayat pergerakan stok.</p>
+          </article>
+          <article class="benefit">
+            <div class="icon">03</div>
+            <h3>Keputusan Lebih Jelas</h3>
+            <p>Pantau omzet, laba, produk terlaris, pelanggan terbaik, dan metode pembayaran dari laporan yang mudah dibaca.</p>
+          </article>
+          <article class="benefit">
+            <div class="icon">04</div>
+            <h3>Banyak Komputer Kasir</h3>
+            <p>Beberapa meja kasir bisa bekerja dalam satu jaringan toko dengan data transaksi, stok, dan laporan yang terpusat.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="fitur">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Fitur lengkap dari kasir sampai enterprise.</h2>
+          <p>Mulai dari kebutuhan transaksi harian sampai kontrol operasional yang lebih maju, semua disusun untuk toko yang ingin naik kelas.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="feature-icon">POS</div>
+            <div>
+              <h3>Modul Kasir</h3>
+              <p>POS cepat untuk transaksi harian toko.</p>
+              <ul>
+                <li>Barcode scanner dan live search produk.</li>
+                <li>Multi-tab transaksi sampai 10 pesanan.</li>
+                <li>Support banyak komputer kasir dalam satu jaringan toko.</li>
+                <li>Diskon item, diskon total, kembalian real-time.</li>
+                <li>Cetak struk thermal 58mm dan auto print.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">STK</div>
+            <div>
+              <h3>Produk dan Stok</h3>
+              <p>Master data produk rapi dan mudah dikelola.</p>
+              <ul>
+                <li>Kategori, barcode, harga beli, harga jual, dan harga grosir.</li>
+                <li>Minimal stok, lokasi rak, foto produk, dan tanggal kadaluarsa.</li>
+                <li>Inventory movement untuk stok masuk dan keluar.</li>
+                <li>Import dan export produk via CSV.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">PAY</div>
+            <div>
+              <h3>Pembayaran</h3>
+              <p>Metode pembayaran fleksibel sesuai kebutuhan toko.</p>
+              <ul>
+                <li>Tunai, QRIS, transfer bank, dan metode pembayaran custom.</li>
+                <li>Metode default bisa diatur.</li>
+                <li>QRIS tampil di POS dan customer display.</li>
+                <li>Rekap pembayaran di laporan penjualan.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">MBR</div>
+            <div>
+              <h3>Pelanggan dan Loyalty</h3>
+              <p>Bangun pelanggan loyal dengan data member yang tertata.</p>
+              <ul>
+                <li>Data pelanggan, nomor HP, alamat, tier, dan total belanja.</li>
+                <li>Poin belanja pelanggan.</li>
+                <li>Penukaran poin menjadi voucher.</li>
+                <li>Pencarian pelanggan langsung saat transaksi.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">PRM</div>
+            <div>
+              <h3>Promo Cerdas</h3>
+              <p>Promo otomatis tanpa hitung manual di meja kasir.</p>
+              <ul>
+                <li>Harga grosir, diskon nominal, diskon persen, dan harga promo.</li>
+                <li>Beli X gratis 1 dan tebus murah.</li>
+                <li>Aturan berdasarkan produk, qty, belanja minimum, dan periode.</li>
+                <li>Promo bisa diaktifkan atau dinonaktifkan kapan saja.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">OPS</div>
+            <div>
+              <h3>Shift dan Operasional</h3>
+              <p>Kontrol kasir, laci, dan cabang lebih rapi.</p>
+              <ul>
+                <li>Buka dan tutup shift dengan modal awal.</li>
+                <li>Rekap total penjualan, tunai, dan selisih kas.</li>
+                <li>Beberapa komputer kasir bisa digunakan dalam satu jaringan.</li>
+                <li>Customer display untuk layar pelanggan.</li>
+                <li>Harga cabang dan export akuntansi.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">SUP</div>
+            <div>
+              <h3>Supplier</h3>
+              <p>Kelola pemasok dan relasi produk dengan jelas.</p>
+              <ul>
+                <li>Kode supplier, nama, kontak, alamat, telepon, dan email.</li>
+                <li>Produk bisa dikaitkan ke supplier.</li>
+                <li>Catatan supplier untuk kebutuhan administrasi.</li>
+                <li>Import dan export supplier via CSV.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">SEC</div>
+            <div>
+              <h3>Keamanan</h3>
+              <p>Data dan aktivitas toko lebih terkendali.</p>
+              <ul>
+                <li>Login admin dan kasir dengan role access.</li>
+                <li>PIN supervisor untuk void item.</li>
+                <li>2FA admin, enkripsi data sensitif, CSRF, dan rate limit.</li>
+                <li>Audit trail, backup, restore, dan health check.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="laporan">
+      <div class="wrap workflow">
+        <div>
+          <div class="section-head">
+            <h2>Laporan penjualan yang langsung bisa dipakai.</h2>
+            <p>
+              Kasirku menampilkan ringkasan omzet, HPP, laba bersih, diskon, produk terlaris,
+              pelanggan top spender, metode pembayaran, dan pergerakan stok.
+            </p>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#kontak">Jadwalkan Demo</a>
+            <a class="btn btn-outline" href="#usaha">Lihat Jenis Usaha</a>
+          </div>
+        </div>
+
+        <div class="report-panel" aria-label="Mockup laporan penjualan">
+          <div class="report-stats">
+            <div class="report-stat"><span>Omzet</span><strong>Rp 8,7 jt</strong></div>
+            <div class="report-stat"><span>Laba Bersih</span><strong>Rp 2,1 jt</strong></div>
+            <div class="report-stat"><span>HPP</span><strong>Rp 5,9 jt</strong></div>
+            <div class="report-stat"><span>Diskon</span><strong>Rp 320 rb</strong></div>
+          </div>
+          <div class="chart" aria-hidden="true">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="usaha">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Cocok untuk berbagai jenis usaha.</h2>
+          <p>Kasirku dirancang untuk usaha yang butuh transaksi cepat, stok rapi, dan laporan yang mudah dipahami.</p>
+        </div>
+        <div class="fit-grid">
+          <article class="fit-card">
+            <h3>Minimarket</h3>
+            <p>Transaksi cepat, barcode scanner, promo otomatis, dan laporan harian.</p>
+          </article>
+          <article class="fit-card">
+            <h3>Toko Kelontong</h3>
+            <p>Catat penjualan, stok, harga produk, dan pelanggan tanpa proses rumit.</p>
+          </article>
+          <article class="fit-card">
+            <h3>Grosir</h3>
+            <p>Dukung harga grosir, qty minimum, supplier, dan kontrol stok.</p>
+          </article>
+          <article class="fit-card">
+            <h3>Retail UMKM</h3>
+            <p>Cocok untuk kosmetik, aksesoris, sembako, makanan, minuman, dan toko harian.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="kontak">
+      <div class="wrap cta-box">
+        <div>
+          <h2>Mulai rapikan operasional toko Anda bersama Kasirku.</h2>
+          <p>
+            Hubungi kami untuk demo, instalasi, atau konsultasi kebutuhan sistem kasir.
+            Kasirku membantu toko Anda bekerja lebih cepat, rapi, dan profesional.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://wa.me/" target="_blank" rel="noopener">Hubungi via WhatsApp</a>
+          <a class="btn btn-outline" href="promo.md">Baca Detail Promo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>Kasirku - Aplikasi Kasir Modern</span>
+      <span>POS, stok, pelanggan, promo, laporan, dan keamanan dalam satu sistem.</span>
+    </div>
+  </footer>
+</body>
+</html>
